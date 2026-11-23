@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador y Juego: Péndulo Amortiguado</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Panel lateral: Parámetros del modelo, controles y telemetría -->
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <span class="badge">Diseño y Control de Modelos</span>
+        <h1>Lanzamiento con Péndulo</h1>
+        <p class="subtitle">
+          Suelta la masa en el ángulo y velocidad ideales para impactar el objetivo.
+        </p>
+      </header>
+
+      <!-- Controles de acción -->
+      <section class="card actions-card">
+        <div class="btn-row">
+          <button id="btnLanzar" class="btn btn-primary" type="button">
+            Soltar / Lanzar (Espacio)
+          </button>
+          <button id="btnReiniciar" class="btn btn-secondary" type="button">
+            Reiniciar
+          </button>
+        </div>
+        <button id="btnNuevoObjetivo" class="btn btn-ghost" type="button">
+          Mover objetivo
+        </button>
+      </section>
+
+      <!-- Parámetros matemáticos modificables -->
+      <section class="card">
+        <h2>Parámetros del Modelo</h2>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="inputLongitud">Longitud de cuerda (L)</label>
+            <span id="valLongitud" class="val-pill">1.50 m</span>
+          </div>
+          <input id="inputLongitud" type="range" min="0.60" max="2.60" step="0.05" value="1.50" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="inputMasa">Masa (m)</label>
+            <span id="valMasa" class="val-pill">1.00 kg</span>
+          </div>
+          <input id="inputMasa" type="range" min="0.20" max="5.00" step="0.10" value="1.00" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="inputAmort">Amortiguamiento (b)</label>
+            <span id="valAmort" class="val-pill">0.15</span>
+          </div>
+          <input id="inputAmort" type="range" min="0.00" max="1.50" step="0.01" value="0.15" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="inputAngulo">Ángulo inicial (θ₀)</label>
+            <span id="valAngulo" class="val-pill">45°</span>
+          </div>
+          <input id="inputAngulo" type="range" min="-75" max="75" step="1" value="45" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="inputGravedad">Gravedad (g)</label>
+            <span id="valGravedad" class="val-pill">9.81 m/s²</span>
+          </div>
+          <input id="inputGravedad" type="range" min="1.62" max="20.00" step="0.01" value="9.81" />
+        </div>
+      </section>
+
+      <!-- Telemetría en tiempo real -->
+      <section class="card">
+        <h2>Telemetría del Sistema</h2>
+        <div class="metrics-grid">
+          <div class="metric">
+            <span class="metric-label">Ángulo θ</span>
+            <span id="metricTheta" class="metric-value">0.0°</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Vel. angular ω</span>
+            <span id="metricOmega" class="metric-value">0.00 rad/s</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Período T (teórico)</span>
+            <span id="metricPeriodo" class="metric-value">2.46 s</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Aciertos / Intentos</span>
+            <span id="metricScore" class="metric-value">0 / 0</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gráfica en tiempo real -->
+      <section class="card chart-card">
+        <div class="chart-header">
+          <h2>Respuesta θ(t) en el Tiempo</h2>
+          <span class="legend-item"><i class="dot"></i> Ángulo (°)</span>
+        </div>
+        <canvas id="graficaCanvas" width="320" height="135"></canvas>
+      </section>
+    </aside>
+
+    <!-- Área principal del juego y registro -->
+    <main class="stage-area">
+      <div id="statusBanner" class="status-banner">
+        Ajusta los parámetros o presiona <strong>Soltar / Lanzar</strong> (o <strong>Espacio</strong>) para disparar hacia el objetivo.
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas id="juegoCanvas"></canvas>
+      </div>
+
+      <!-- Tabla de registro de lanzamientos -->
+      <section class="card log-card">
+        <div class="log-header">
+          <h2>Registro de Lanzamientos</h2>
+          <button id="btnLimpiarHistorial" class="btn btn-mini" type="button">
+            Limpiar tabla
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>θ suelta</th>
+                <th>v₀</th>
+                <th>L / θ₀</th>
+                <th>Dist. mín.</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="historialBody">
+              <tr class="empty-row">
+                <td colspan="6">Aún no se han realizado lanzamientos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="pendulo.js"></script>
+  <script src="grafica.js"></script>
+  <script src="juego.js"></script>
+</body>
+</html>
+

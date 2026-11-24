@@ -93,6 +93,8 @@ No requiere instalación de dependencias ni servidores externos:
 2. Abre el archivo `index.html` directamente en cualquier navegador web moderno (Chrome, Edge, Firefox, Brave).
 3. Ajusta los parámetros en el panel lateral y presiona **Soltar / Lanzar** (o la barra espaciadora) en el instante oportuno para impactar el objetivo.
 
+Alternativamente puede usar el enlace: https://u5-pendulo-amortiguado.wasmer.app/ para probar el juego directamente.
+
 ---
 
 ## Autores
